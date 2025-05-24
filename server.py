@@ -7,8 +7,6 @@ from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives.serialization import load_pem_private_key
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QVBoxLayout, QWidget, 
                             QLabel, QTextEdit, QPushButton, QFileDialog, QMessageBox)
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QFont
 
 class FileReceiverServer(QMainWindow):
     def __init__(self):
@@ -20,62 +18,17 @@ class FileReceiverServer(QMainWindow):
         
     def initUI(self):
         self.setWindowTitle('File Receiver Server')
-        self.setGeometry(100, 100, 800, 600)
+        self.setGeometry(100, 100, 600, 400)
         
-        # Thiết lập style cho ứng dụng
-        self.setStyleSheet("""
-            QMainWindow {
-                background-color: #f5f5f5;
-            }
-            QLabel {
-                color: #333333;
-                font-size: 14px;
-                font-weight: bold;
-                padding: 5px;
-            }
-            QPushButton {
-                background-color: #4CAF50;
-                color: white;
-                border: none;
-                padding: 8px 16px;
-                border-radius: 4px;
-                font-size: 14px;
-                min-width: 120px;
-            }
-            QPushButton:hover {
-                background-color: #45a049;
-            }
-            QPushButton:pressed {
-                background-color: #3d8b40;
-            }
-            QTextEdit {
-                background-color: white;
-                color: #333333;
-                border: 1px solid #cccccc;
-                border-radius: 4px;
-                padding: 8px;
-                font-family: Arial;
-                font-size: 13px;
-            }
-        """)
-        
-        # Main layout
         layout = QVBoxLayout()
-        layout.setSpacing(10)
-        layout.setContentsMargins(10, 10, 10, 10)
         
-        # Status label
         self.status_label = QLabel('Server Status: Stopped')
-        self.status_label.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.status_label)
         
-        # Log text
         self.log_text = QTextEdit()
         self.log_text.setReadOnly(True)
-        self.log_text.setMinimumHeight(400)
         layout.addWidget(self.log_text)
         
-        # Buttons
         self.load_key_button = QPushButton('Load Private Key')
         self.load_key_button.clicked.connect(self.load_private_key)
         layout.addWidget(self.load_key_button)
@@ -84,7 +37,6 @@ class FileReceiverServer(QMainWindow):
         self.start_button.clicked.connect(self.toggle_server)
         layout.addWidget(self.start_button)
         
-        # Set main layout
         container = QWidget()
         container.setLayout(layout)
         self.setCentralWidget(container)
@@ -118,7 +70,6 @@ class FileReceiverServer(QMainWindow):
             self.running = True
             self.start_button.setText('Stop Server')
             self.status_label.setText('Server Status: Running')
-            self.status_label.setStyleSheet("color: #4CAF50;")
             
             self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -139,7 +90,6 @@ class FileReceiverServer(QMainWindow):
         self.running = False
         self.start_button.setText('Start Server')
         self.status_label.setText('Server Status: Stopped')
-        self.status_label.setStyleSheet("color: #f44336;")
         
         try:
             if self.server_socket:
